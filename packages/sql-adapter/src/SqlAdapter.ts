@@ -94,6 +94,17 @@ export default class SqlAdapter<T> implements IAdapter<T> {
   public async query(
     query?: IAdapterQuery<T>
   ): Promise<Array<TAdapterQueryResponse<T>> | void> {
-    throw Error();
+    if (query && query.select && !query.select.length) return;
+
+    let builder = this.builder();
+
+    // Select
+    builder =
+      query && query.select ? builder.select(query.select) : builder.select();
+
+    // Where
+    builder = parseWhere(builder, query && query.where);
+
+    return builder;
   }
 }
