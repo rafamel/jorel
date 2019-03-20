@@ -1,1 +1,1 @@
-export default function main(): void {}
+export { default as adapter } from './adapter';
