@@ -86,7 +86,50 @@ export default class SqlAdapter<T> implements IAdapter<T> {
   public async patch(
     query: IAdapterPatch<T>
   ): Promise<Array<Partial<T>> | void> {
-    throw Error();
+    let builder = parseWhere(this.builder(), query.where);
+
+    if (this.isPostgres) {
+      return query.select && !query.select.length
+        ? builder.update(query.data).then(() => {})
+        : builder.update(query.data).returning(query.select || '*');
+    }
+
+    if (query.select && !query.select.length) {
+      // No returnning data selected
+      return builder.update(query.data).then(() => {});
+    }
+    // Some returning data selected
+    // As the { where } query might not work any further,
+    // we need to query the data beforehand
+    // and merge it afterwards
+    const selectIncludesId =
+      !query.select || query.select.includes(this.id as any);
+    const rows: any[] = await (query.select
+      ? builder.select(
+          selectIncludesId ? query.select : query.select.concat(this.id as any)
+        )
+      : builder.select());
+
+    // Do actual patching
+    const ids: any[] = rows.map((x: any) => x[this.id]);
+    await this.builder()
+      .whereIn(this.id, ids)
+      .update(query.data);
+
+    const dataToMerge = query.select
+      ? query.select.reduce((acc: any, key: string) => {
+          if (query.data.hasOwnProperty(key)) {
+            acc[key] = (query.data as any)[key];
+          }
+          return acc;
+        }, {})
+      : query.data;
+    return selectIncludesId
+      ? rows.map((item) => ({ ...item, ...dataToMerge }))
+      : rows.map((item) => {
+          delete item[this.id];
+          return { ...item, ...dataToMerge };
+        });
   }
   public async remove(query?: IAdapterRemove<T>): Promise<void> {
     await parseWhere(this.builder(), query && query.where).del();
