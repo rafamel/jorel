@@ -8,6 +8,7 @@ import {
   TAdapterQueryResponse,
   IAdapterPatch
 } from '@jorel/orm';
+import parseWhere from './parse-where';
 import { returnSelectOne, returnSelectMany } from './return-select';
 
 export default class SqlAdapter<T> implements IAdapter<T> {
@@ -88,7 +89,7 @@ export default class SqlAdapter<T> implements IAdapter<T> {
     throw Error();
   }
   public async remove(query?: IAdapterRemove<T>): Promise<void> {
-    throw Error();
+    await parseWhere(this.builder(), query && query.where).del();
   }
   public async query(
     query?: IAdapterQuery<T>
