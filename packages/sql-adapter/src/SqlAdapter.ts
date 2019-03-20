@@ -8,7 +8,7 @@ import {
   TAdapterQueryResponse,
   IAdapterPatch
 } from '@jorel/orm';
-import { returnSelectOne } from './return-select';
+import { returnSelectOne, returnSelectMany } from './return-select';
 
 export default class SqlAdapter<T> implements IAdapter<T> {
   public knex: Knex;
@@ -38,7 +38,42 @@ export default class SqlAdapter<T> implements IAdapter<T> {
     query: IAdapterBatch<T>
   ): Promise<Array<Partial<T>> | void> {
     // TODO: implement & test for maxBatch
-    throw Error();
+
+    if (this.isPostgres) {
+      return query.select && !query.select.length
+        ? this.builder()
+            .insert(query.data)
+            .then(() => {})
+        : this.builder()
+            .insert(query.data)
+            .returning(query.select || '*');
+    }
+
+    // If no postgres, iterate over create
+    let promises: Array<PromiseLike<any>> = [];
+    let error: Error;
+    for (let item of query.data) {
+      promises.push(
+        this.builder()
+          .insert(item)
+          .then((arr) => arr[0])
+          .catch((e) => {
+            if (!error) error = e;
+            return null;
+          })
+      );
+    }
+    return Promise.all(promises).then(async (ids) => {
+      if (error) {
+        // Undo successful inserts
+        await this.remove({ where: { [this.id]: { $in: ids } } })
+          // Swallow removal error
+          .catch(() => {});
+        throw error;
+      }
+
+      return returnSelectMany.call(this, ids, query.select);
+    });
   }
   public async create(query: IAdapterCreate<T>): Promise<Partial<T> | void> {
     return returnSelectOne.call(
@@ -59,4 +94,5 @@ export default class SqlAdapter<T> implements IAdapter<T> {
     query?: IAdapterQuery<T>
   ): Promise<Array<TAdapterQueryResponse<T>> | void> {
     throw Error();
+  }
 }
