@@ -10,3 +10,22 @@
 <!-- markdownlint-enable MD036 -->
 
 # Packages
+
+* [@jorel/orm](https://github.com/rafamel/jorel/tree/master/packages/orm)
+  * [@jorel/sql-adapter](https://github.com/rafamel/jorel/tree/master/packages/sql-adapter)
+* [@jorel/compliance](https://github.com/rafamel/jorel/tree/master/packages/compliance)
+
+
+# Use cases / Vision
+
+## Server
+
+![Server use case](https://raw.githubusercontent.com/rafamel/jorel/master/assets/server.png)
+
+## Client
+
+![Client use case](https://raw.githubusercontent.com/rafamel/jorel/master/assets/client.png)
+
+## Server & Client
+
+![Server & Client use case](https://raw.githubusercontent.com/rafamel/jorel/master/assets/server-client.png)

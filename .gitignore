@@ -4,6 +4,7 @@
 /bin
 /dist
 _test.*
+*.drawio
 
 # Node, Frameworks, Editors #
 #############################
