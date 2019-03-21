@@ -1,6 +1,7 @@
 import { TConstructor, TAdapter } from '../types';
 import PureCollection from './PureCollection';
 import { JSONSchema7 } from 'json-schema';
+import initialize, { uninitialized } from './initialize';
 
 /**
  * Collections can extend other collections classes, as long as these classes are abstract: non-abstract `Collection` classes MUST NOT be extended. Put another way, any `Collection` that might get intialized (see `Collection.initialize()`) must not be extended.
@@ -49,13 +50,13 @@ export default class Collection {
   public static pure<T extends Collection>(
     this: TConstructor<T> & typeof Collection
   ): PureCollection<T> {
-    throw Error();
+    return uninitialized.call(this);
   }
   /**
    * Initializes and verifies a collection, initializes the adapter for the collection, and sets getters for each instance data property, according to `Collection.schema` JSONSchema `properties`.
    */
   public static initialize<T extends typeof Collection>(this: T): T {
-    throw Error();
+    return initialize.call(this) as T;
   }
 
   // Instance
