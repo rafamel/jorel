@@ -3,7 +3,7 @@ import { JorelError, EErrorTypes } from '~/errors';
 import { INITIALIZED, PROTECTED } from './constants';
 import PureCollection from './PureCollection';
 import registry from '../registry';
-import { options } from '../options';
+import { defaults as options } from '../options';
 
 export function error<T extends typeof Collection>(
   this: T,
