@@ -1,4 +1,4 @@
-import { TWhere } from './query';
+import { TJqlWhere } from './jql';
 
 /**
  * `TAdapter` defines the interface all adapters must implement. A valid adapter must (will) pass the `@jorel/compliance` tests for adapters.
@@ -39,27 +39,31 @@ export interface IAdapter<T> {
 
 export type TAdapterQueryResponse<T> = Partial<T> & { [key: string]: any };
 
-export interface IAdapterWhere<T> {
-  where?: TWhere<T>;
-}
-export interface IAdapterSelect<T> {
-  /**
-   * Selects all on `null`/`undefined`. Selects none on empty array.
-   */
-  select?: Array<keyof T & string> | null;
-}
-export interface IAdapterBatch<T> extends IAdapterSelect<T> {
+/**
+ * Selects all on `null`/`undefined`. Selects none on empty array.
+ */
+export type TAdapterSelect<T> = Array<keyof T & string> | null;
+
+export interface IAdapterBatch<T> {
+  select?: TAdapterSelect<T>;
   data: Array<Partial<T>>;
 }
-export interface IAdapterCreate<T> extends IAdapterSelect<T> {
+export interface IAdapterCreate<T> {
+  select?: TAdapterSelect<T>;
   data: Partial<T>;
 }
-export interface IAdapterPatch<T> extends IAdapterSelect<T>, IAdapterWhere<T> {
+export interface IAdapterPatch<T> {
+  select?: TAdapterSelect<T>;
+  where?: TJqlWhere<T>;
   data: Partial<T>;
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IAdapterRemove<T> extends IAdapterWhere<T> {}
-export interface IAdapterQuery<T> extends IAdapterSelect<T>, IAdapterWhere<T> {
+export interface IAdapterRemove<T> {
+  where?: TJqlWhere<T>;
+}
+export interface IAdapterQuery<T> {
+  select?: TAdapterSelect<T>;
+  where?: TJqlWhere<T>;
+
   // TODO
   // paginate?: IPaginate<T>;
   // aggregate?: { [key: string]: IAdapterAggregate<T> };
