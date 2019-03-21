@@ -1,9 +1,9 @@
 import Knex from 'knex';
-import { TWhere } from '@jorel/orm';
+import { TJqlWhere } from '@jorel/orm';
 
 export default function parseWhere<T>(
   builder: Knex.QueryBuilder,
-  where?: TWhere<T>
+  where?: TJqlWhere<T>
 ): Knex.QueryBuilder {
   if (!where) return builder;
 

@@ -2,6 +2,7 @@ import Knex from 'knex';
 import SqlAdapter from './SqlAdapter';
 
 export type TSqlAdapter<T> = (collection: string, id: string) => SqlAdapter<T>;
+
 export default function sqlAdapter<T>(
   knex: Knex,
   maxBatch: number = 2500

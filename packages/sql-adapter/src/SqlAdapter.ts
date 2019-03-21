@@ -67,7 +67,9 @@ export default class SqlAdapter<T> implements IAdapter<T> {
     return Promise.all(promises).then(async (ids) => {
       if (error) {
         // Undo successful inserts
-        await this.remove({ where: { [this.id]: { $in: ids } } })
+        await this.remove({
+          where: { [this.id]: { $in: ids } }
+        } as IAdapterRemove<any>)
           // Swallow removal error
           .catch(() => {});
         throw error;
