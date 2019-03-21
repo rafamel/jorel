@@ -17,8 +17,7 @@ export default function testWhere(adapter: TAdapter<any>): void {
 
       const arr = await users.query({
         where: {
-          name: { $eq: 'foo' },
-          $or: [{ name: { $eq: 'bar' } }]
+          $or: [{ name: { $eq: 'foo' } }, { name: { $eq: 'bar' } }]
         }
       });
 
@@ -31,14 +30,12 @@ export default function testWhere(adapter: TAdapter<any>): void {
     test(`and`, async () => {
       const arr1 = await users.query({
         where: {
-          name: { $eq: 'foo' },
-          $and: [{ name: { $eq: 'bar' } }]
+          $and: [{ name: { $eq: 'foo' } }, { name: { $eq: 'bar' } }]
         }
       });
       const arr2 = await users.query({
         where: {
-          name: { $eq: 'foo' },
-          $and: [{ email: { $eq: 'foo@foo' } }]
+          $and: [{ name: { $eq: 'foo' } }, { email: { $eq: 'foo@foo' } }]
         }
       });
       const arr3 = await users.query({
@@ -63,8 +60,7 @@ export default function testWhere(adapter: TAdapter<any>): void {
           $or: [
             { name: { $eq: 'baz' } },
             {
-              name: { $eq: 'foo' },
-              $and: [{ email: { $eq: 'foo@foo' } }]
+              $and: [{ name: { $eq: 'foo' } }, { email: { $eq: 'foo@foo' } }]
             }
           ]
         }
