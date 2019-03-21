@@ -22,3 +22,12 @@ transpiled
 typings
 JSON
 transpile
+jorel
+sql-adapter
+Knex.js
+orm
+SQLite3
+Postgres
+Mysql
+MariaDB
+MSSQL
