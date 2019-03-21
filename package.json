@@ -5,10 +5,12 @@
   "scripts": {
     "prepublishOnly": "exit 1",
     "postinstall": "npm run bootstrap && npm run build:dev --prefix=./packages/orm && npm run build --prefix=./packages/compliance && npm run build --prefix=./packages/sql-adapter && npm run build --prefix=./packages/orm && lerna link",
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "docs": "lerna run docs --stream && shx cp assets/docs.html docs/index.html"
   },
   "dependencies": {},
   "devDependencies": {
-    "lerna": "^3.13.1"
+    "lerna": "^3.13.1",
+    "shx": "^0.3.2"
   }
 }

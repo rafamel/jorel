@@ -13,5 +13,5 @@ module.exports = {
   excludePrivate: true,
   excludeNotExported: false,
   readme: path.join(__dirname, 'README.md'),
-  exclude: ['**/internal/**/*.ts']
+  exclude: ['**/internal/**/*.ts', '**/parse-where.ts', '**/return-select.ts']
 };
