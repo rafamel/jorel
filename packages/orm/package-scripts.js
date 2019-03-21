@@ -21,9 +21,8 @@ const { COMMIT, COMMITIZEN } = process.env;
 process.env.LOG_LEVEL = 'disable';
 module.exports = scripts({
   build: {
-    default:
-      'cross-env NODE_ENV=production' +
-      ' nps validate build.prepare build.transpile build.declaration',
+    default: 'cross-env NODE_ENV=production nps validate build.dev',
+    dev: `nps build.prepare build.transpile build.declaration`,
     prepare: series(
       `jake run:zero["shx rm -r ${OUT_DIR}"]`,
       `shx mkdir ${OUT_DIR}`,
@@ -64,7 +63,13 @@ module.exports = scripts({
     scripts: 'jake lintscripts["' + __dirname + '"]'
   },
   test: {
-    default: series('nps lint types', 'cross-env NODE_ENV=test jest'),
+    default: series(
+      'nps lint types',
+      'jake run:zero["shx rm ./test/db/test_db.db"]',
+      'knex --knexfile ./test/db/knexfile.js migrate:latest',
+      'cross-env NODE_ENV=test jest --runInBand',
+      'shx rm ./test/db/test_db.db'
+    ),
     watch:
       `onchange "./{src,test}/**/*.{${EXT}}" --initial --kill -- ` +
       'jake clear run:exec["shx echo ⚡"] run:zero["nps test"]'

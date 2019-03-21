@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prepublishOnly": "exit 1",
-    "postinstall": "npm run bootstrap",
+    "postinstall": "npm run bootstrap && npm run build:dev --prefix=./packages/orm && npm run build --prefix=./packages/compliance && npm run build --prefix=./packages/sql-adapter && npm run build --prefix=./packages/orm && lerna link",
     "bootstrap": "lerna bootstrap"
   },
   "dependencies": {},

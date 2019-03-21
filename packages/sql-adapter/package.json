@@ -15,6 +15,7 @@
     "version": "nps private.version",
     "start": "npm run watch",
     "build": "nps build",
+    "build:dev": "nps build.dev",
     "build:prepare": "nps build.prepare",
     "build:transpile": "nps build.transpile",
     "build:declaration": "nps build.declaration",
@@ -100,6 +101,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
+    "@jorel/orm": "^0.0.0",
     "knex": "^0.16.3"
   },
   "config": {
