@@ -1,7 +1,6 @@
-export const INITIALIZED: unique symbol = Symbol('initialized');
-
 export const PROTECTED: string[] = [
   'raw',
+  'edges',
   'pure',
   'batch',
   'create',

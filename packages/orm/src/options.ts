@@ -8,5 +8,5 @@ export const defaults: IOptions = {
 };
 
 export default function options(opts: Partial<IOptions>): void {
-  Object.assign(options, opts);
+  Object.assign(defaults, opts);
 }

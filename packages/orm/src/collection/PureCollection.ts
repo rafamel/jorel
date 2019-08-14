@@ -4,25 +4,20 @@ import {
   IAdapterCreate,
   IAdapterPatch,
   IAdapterQuery,
-  TConstructor,
-  TAdapterQueryResponse,
   IAdapterRemove
 } from '../types';
 import { PureAgent } from '../agents';
 import Collection from './Collection';
+import { QueryError } from '~/errors';
 
 // TODO add hooks
 /**
  * A `PureCollection` is created on every `Collection` initialization. It provides a lower level interface for queries, allowing for more fine-grained control, with arguments equivalent to those taken by adapters, and returning plain objects instead of collection instances. Keep in mind you can't do nested mutation or querying operations with this api.
  */
 export default class PureCollection<T extends Collection> {
-  /** The `Collection` this `PureCollection` is linked to */
-  public collection: TConstructor<T> & typeof Collection;
-  /** A built adapter */
   public adapter: IAdapter<T>;
-  public constructor(collection: TConstructor<T> & typeof Collection) {
-    this.collection = collection;
-    this.adapter = collection.adapter(collection.collection, collection.id);
+  public constructor(adapter: IAdapter<T>) {
+    this.adapter = adapter;
   }
   /**
    * Batch inserts records.
@@ -30,7 +25,11 @@ export default class PureCollection<T extends Collection> {
   public batch(
     query: IAdapterBatch<T>
   ): PureAgent<Partial<T>, Promise<Array<Partial<T>> | void>> {
-    return new PureAgent(() => this.adapter.batch(query));
+    return new PureAgent(() => {
+      return this.adapter.batch(query).catch(async (err) => {
+        throw new QueryError('ExecutionError', { err });
+      });
+    });
   }
   /**
    * Inserts record.
@@ -38,7 +37,11 @@ export default class PureCollection<T extends Collection> {
   public create(
     query: IAdapterCreate<T>
   ): PureAgent<Partial<T>, Promise<Partial<T> | void>> {
-    return new PureAgent(() => this.adapter.create(query));
+    return new PureAgent(() => {
+      return this.adapter.create(query).catch(async (err) => {
+        throw new QueryError('ExecutionError', { err });
+      });
+    });
   }
   /**
    * Updates records.
@@ -46,7 +49,11 @@ export default class PureCollection<T extends Collection> {
   public update(
     query: IAdapterPatch<T>
   ): PureAgent<Partial<T>, Promise<Array<Partial<T>> | void>> {
-    return new PureAgent(() => this.adapter.patch(query));
+    return new PureAgent(() => {
+      return this.adapter.patch(query).catch(async (err) => {
+        throw new QueryError('ExecutionError', { err });
+      });
+    });
   }
   /**
    * Patches records.
@@ -54,23 +61,32 @@ export default class PureCollection<T extends Collection> {
   public patch(
     query: IAdapterPatch<T>
   ): PureAgent<Partial<T>, Promise<Array<Partial<T>> | void>> {
-    return new PureAgent(() => this.adapter.patch(query));
+    return new PureAgent(() => {
+      return this.adapter.patch(query).catch(async (err) => {
+        throw new QueryError('ExecutionError', { err });
+      });
+    });
   }
   /**
    * Removes records.
    */
   public remove(query?: IAdapterRemove<T>): PureAgent<void, Promise<void>> {
-    return new PureAgent(() => this.adapter.remove(query));
+    return new PureAgent(() => {
+      return this.adapter.remove(query).catch(async (err) => {
+        throw new QueryError('ExecutionError', { err });
+      });
+    });
   }
   /**
    * Queries database.
    */
   public query(
     query?: IAdapterQuery<T>
-  ): PureAgent<
-    TAdapterQueryResponse<T>,
-    Promise<Array<TAdapterQueryResponse<T>> | void>
-  > {
-    return new PureAgent(() => this.adapter.query(query));
+  ): PureAgent<Partial<T>, Promise<Array<Partial<T>> | void>> {
+    return new PureAgent(() => {
+      return this.adapter.query(query).catch(async (err) => {
+        throw new QueryError('ExecutionError', { err });
+      });
+    });
   }
 }

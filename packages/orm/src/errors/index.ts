@@ -1,1 +1,1 @@
-export * from './JorelError';
+export { default as QueryError } from './QueryError';

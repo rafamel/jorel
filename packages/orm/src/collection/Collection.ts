@@ -1,7 +1,7 @@
-import { TConstructor, TAdapter } from '../types';
-import PureCollection from './PureCollection';
 import { JSONSchema7 } from 'json-schema';
-import initialize, { uninitialized } from './initialize';
+import PureCollection from './PureCollection';
+import { IConstructor, TAdapter, TJqlEdges } from '~/types';
+import registry, { store } from '~/registry';
 
 /**
  * Collections can extend other collections classes, as long as these classes are abstract: non-abstract `Collection` classes MUST NOT be extended. Put another way, any `Collection` that might get intialized (see `Collection.initialize()`) must not be extended.
@@ -44,21 +44,28 @@ export default class Collection {
    * JSONSchema definition for each instance/row data. In order for collection instances to work properly, a schema MUST declare all first level fields (properties) for saved data, even if no type declaration for these is set. It must be coherent with recorded data.
    */
   public static schema: JSONSchema7;
+  public static edges?: {
+    one?: TJqlEdges<any>;
+    many?: TJqlEdges<any>;
+  };
   /**
    * Returns a `PureCollection` for a `Collection`
    */
   public static pure<T extends Collection>(
-    this: TConstructor<T> & typeof Collection
+    this: IConstructor<T> & typeof Collection
   ): PureCollection<T> {
-    return uninitialized.call(this);
+    return store.pure(this.collection);
   }
   /**
    * Initializes and verifies a collection, initializes the adapter for the collection, and sets getters for each instance data property, according to `Collection.schema` JSONSchema `properties`.
    */
-  public static initialize<T extends typeof Collection>(this: T): T {
-    return initialize.call(this) as T;
+  public static register<T extends typeof Collection>(this: T): T {
+    return registry.add(this);
   }
 
   // Instance
   public raw: any;
+  public constructor(raw: any) {
+    this.raw = raw;
+  }
 }

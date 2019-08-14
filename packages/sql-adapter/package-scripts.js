@@ -63,13 +63,8 @@ module.exports = scripts({
     scripts: 'jake lintscripts["' + __dirname + '"]'
   },
   test: {
-    default: series(
-      'nps lint types',
-      'jake run:zero["shx rm ./test/db/test_db.db"]',
-      'knex --knexfile ./test/db/knexfile.js migrate:latest',
-      'cross-env NODE_ENV=test jest --runInBand',
-      'shx rm ./test/db/test_db.db'
-    ),
+    default: series('nps lint types', 'poseup run test'),
+    local: series('nps lint types', 'jest test/sqlite*'),
     watch:
       `onchange "./{src,test}/**/*.{${EXT}}" --initial --kill -- ` +
       'jake clear run:exec["shx echo ⚡"] run:zero["nps test"]'
@@ -98,6 +93,7 @@ module.exports = scripts({
     watch:
       'concurrently "nps build.transpile" "nps build.declaration" "nps lint"' +
       ' -n babel,tsc,eslint -c green,magenta,yellow',
+    test: 'cross-env NODE_ENV=test jest --runInBand',
     preversion: series(
       'shx echo "Recommended version bump is:"',
       'conventional-recommended-bump --preset angular --verbose',

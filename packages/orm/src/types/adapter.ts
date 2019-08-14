@@ -1,4 +1,4 @@
-import { TJqlWhere } from './jql';
+import { TJqlWhere, IJqlPaginate } from './jql';
 
 /**
  * `TAdapter` defines the interface all adapters must implement. A valid adapter must (will) pass the `@jorel/compliance` tests for adapters.
@@ -32,12 +32,8 @@ export interface IAdapter<T> {
   /**
    * Queries database.
    */
-  query(
-    query?: IAdapterQuery<T>
-  ): Promise<Array<TAdapterQueryResponse<T>> | void>;
+  find(query?: IAdapterQuery<T>): Promise<Array<Partial<T>> | void>;
 }
-
-export type TAdapterQueryResponse<T> = Partial<T> & { [key: string]: any };
 
 /**
  * Selects all on `null`/`undefined`. Selects none on empty array.
@@ -63,9 +59,8 @@ export interface IAdapterRemove<T> {
 export interface IAdapterQuery<T> {
   select?: TAdapterSelect<T>;
   where?: TJqlWhere<T>;
-
   // TODO
-  // paginate?: IPaginate<T>;
+  paginate?: IJqlPaginate<T>;
   // aggregate?: { [key: string]: IAdapterAggregate<T> };
 }
 

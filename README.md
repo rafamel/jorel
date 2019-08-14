@@ -15,7 +15,6 @@
   * [@jorel/sql-adapter](https://github.com/rafamel/jorel/tree/master/packages/sql-adapter)
 * [@jorel/compliance](https://github.com/rafamel/jorel/tree/master/packages/compliance)
 
-
 # Use cases / Vision
 
 ## Server

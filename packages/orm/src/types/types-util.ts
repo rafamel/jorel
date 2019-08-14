@@ -1,8 +1,9 @@
 export { Omit } from 'utility-types';
 
-export type TConstructor<T = {}> = (new (...args: any[]) => T) & {
-  [key: string]: any;
-};
+export interface IConstructor<T> {
+  new (...args: any[]): T;
+  prototype: T;
+}
 
 export type TElementType<T> = T extends Array<infer U> ? U : T;
 

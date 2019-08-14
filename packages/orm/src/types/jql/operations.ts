@@ -1,6 +1,6 @@
 import { TJqlWhere, TJqlQueryEdge } from './query';
 import { Omit, TElementType, IOfType } from '../types-util';
-import { Collection } from '~/collections';
+import { Collection } from '~/collection';
 
 export type TJqlMutateOperation<T> =
   | IJqlCreate<T>
@@ -19,13 +19,13 @@ export type TJqlNested<T> = {
 };
 
 export type TJqlEdges<T> = IOfType<
-  IJqlEdgeDefinition<T> | Array<IJqlEdgeDefinition<any>>
+  IJqlEdgeDefinition<T> | Array<IJqlEdgeDefinition<T>>
 >;
 
 export interface IJqlEdgeDefinition<T> {
   from: keyof T;
-  to: any;
-  at: typeof Collection;
+  to: string;
+  at: any;
 }
 
 type TAllowedCreate = Omit<IForbidden, 'create' | 'query' | 'edges'>;
@@ -40,7 +40,6 @@ type TAllowedUpsert = Omit<
   'upsert' | 'unique' | 'where' | 'query' | 'edges'
 >;
 export interface IJqlUpsert<T> extends TAllowedUpsert {
-  // TODO
   unique?: Array<keyof T | Array<keyof T>>;
   where?: TJqlWhere<T>;
   query?: TJqlQueryEdge<T>;

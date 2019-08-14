@@ -17,4 +17,4 @@
 
 ## Notes
 
-`@jorel/sql-adapter` is routinely tested on *SQLite3, Postgres, Mysql,* and *MariaDB.* Usage with *MSSQL, Oracle,* and *Amazon Redshift* should be deemed experimental.
+`@jorel/sql-adapter` is routinely tested on *SQLite3, Postgres, Mysql* and *MariaDB.* Usage with *MSSQL, Oracle,* and *Amazon Redshift* should be deemed experimental.

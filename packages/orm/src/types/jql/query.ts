@@ -1,9 +1,11 @@
 import { TElementType, Omit } from '../types-util';
 
-export interface IJqlQuery<T> {
+export interface IJqlBasicQuery<T> {
   where?: TJqlWhere<T>;
-  // TODO
-  // paginate: IPaginate<T>,
+  paginate?: IJqlPaginate<T>;
+}
+
+export interface IJqlQuery<T> extends IJqlBasicQuery<T> {
   edges?: TJqlQueryEdges<T>;
 }
 
@@ -11,13 +13,12 @@ export type TJqlQueryEdges<T> = {
   [P in keyof T]?: TJqlQueryEdge<TElementType<T[P]>>
 };
 
-export type TJqlQueryEdge<T> = boolean | undefined | null | TJqlQueryEdges<T>;
+export type TJqlQueryEdge<T> = boolean | undefined | null | IJqlQuery<T>;
 
 export interface IJqlPaginate<T> {
   skip?: number;
   limit?: number;
-  // TODO
-  // order?: IOrder<T> | Array<IOrder<T>>;
+  order?: IJqlOrder<T> | Array<IJqlOrder<T>>;
 }
 export interface IJqlOrder<T> {
   by: keyof T;
