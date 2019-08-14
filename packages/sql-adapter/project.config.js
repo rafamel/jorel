@@ -1,17 +1,61 @@
-module.exports = {
-  // Whether to use TypeScript. Boolean.
-  TYPESCRIPT: true,
-  // Output build directory. String.
-  OUT_DIR: 'lib',
-  // Output directory for docs. String.
-  DOCS_DIR: '../../docs/sql-adapter',
-  // Path to most tooling configuration files. String.
-  CONFIG_DIR: __dirname,
-  // Extensions for JS and TS files. Comma separated string (no dots).
-  EXT_JS: 'js,mjs,jsx',
-  EXT_TS: 'ts,tsx',
-  // Build project on version bump. Boolean.
-  RELEASE_BUILD: true,
-  // Generate docs from TS on version bump. Boolean.
-  RELEASE_DOCS: false
-};
+const pkg = require('./package.json');
+const path = require('path');
+const { default: create } = require('@riseup/library');
+
+module.exports = create({
+  // Whether it is a monorepo child project
+  monorepo: true,
+  // Enables typescript and declaration files
+  typescript: true,
+  // Paths used on build
+  paths: {
+    root: __dirname,
+    docs: path.join(__dirname, '../../docs', pkg.name),
+    build: path.join(__dirname, 'pkg')
+  },
+  version: {
+    // Build project on version bump. Boolean.
+    build: true,
+    // Generate docs from TS on version bump. Boolean.
+    docs: true
+  },
+  assign: {
+    todo: ['xxx', 'fixme', 'todo', 'refactor'],
+    // Source code aliases
+    alias: {
+      '~': './src'
+    }
+  },
+  extend: {
+    babel: {
+      strategy: 'deep',
+      configure: {}
+    },
+    eslint: {
+      strategy: 'deep',
+      configure: {
+        overrides: [
+          {
+            files: ['*'],
+            rules: {
+              // 'rule-name': 0
+            }
+          }
+        ]
+      }
+    },
+    jest: {
+      strategy: 'deep',
+      configure: {
+        modulePathIgnorePatterns: [],
+        transformIgnorePatterns: ['/node_modules/(?!(module-to-transpile)/)']
+      }
+    },
+    typedoc: {
+      strategy: 'deep',
+      configure: {
+        exclude: ['**/__mocks__/**/*']
+      }
+    }
+  }
+});

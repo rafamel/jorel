@@ -1,16 +1,55 @@
 {
   "name": "@jorel/root",
+  "version": "0.0.0",
   "author": "Rafa Mel",
   "private": true,
+  "engines": {
+    "node": ">=8"
+  },
   "scripts": {
-    "prepublishOnly": "exit 1",
-    "postinstall": "npm run bootstrap && npm run build:dev --prefix=./packages/orm && npm run build --prefix=./packages/compliance && npm run build --prefix=./packages/sql-adapter && npm run build --prefix=./packages/orm && lerna link",
-    "bootstrap": "lerna bootstrap",
-    "docs": "lerna run docs --stream && shx cp assets/docs.html docs/index.html"
+    "commit": "kpo commit --",
+    "semantic": "kpo semantic --",
+    "fix": "kpo fix --",
+    "fix:scripts": "kpo fix:scripts --",
+    "lint": "kpo lint --",
+    "lint:md": "kpo lint:md --",
+    "lint:scripts": "kpo lint:scripts --",
+    "clean": "kpo clean --",
+    "clean:build": "kpo clean:build --",
+    "clean:modules": "kpo clean:modules --",
+    "pre-commit": "kpo pre-commit --",
+    "prepublishOnly": "kpo prepublishOnly --",
+    "preversion": "kpo preversion --",
+    "version": "kpo version --",
+    "release": "kpo release --",
+    "test": "kpo test --",
+    "test:coverage": "kpo test:coverage --",
+    "validate": "kpo validate --",
+    "bootstrap": "kpo bootstrap --",
+    "link": "kpo link --",
+    "build": "kpo build --",
+    "postinstall": "kpo postinstall --"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/rafamel/jorel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rafamel/jorel"
+  },
+  "bugs": {
+    "url": "https://github.com/rafamel/jorel/issues"
+  },
+  "devDependencies": {
+    "@riseup/monorepo": "0.2.0",
+    "kpo": "^0.11.0",
+    "lerna": "^3.15.0",
+    "husky": "^3.0.0",
+    "coveralls": "^3.0.4"
   },
   "dependencies": {},
-  "devDependencies": {
-    "lerna": "^3.13.1",
-    "shx": "^0.3.2"
+  "husky": {
+    "hooks": {
+      "pre-commit": "kpo pre-commit"
+    }
   }
 }

@@ -5,14 +5,12 @@
 [![Coverage](https://img.shields.io/coveralls/rafamel/jorel.svg)](https://coveralls.io/github/rafamel/jorel)
 [![License](https://img.shields.io/github/license/rafamel/jorel.svg)](https://github.com/rafamel/jorel/blob/master/LICENSE)
 
-<!-- markdownlint-disable MD036 -->
-**Jorel monorepo.**
-<!-- markdownlint-enable MD036 -->
+> Simple database and data sources dependency injection.
 
 # Packages
 
 * [@jorel/orm](https://github.com/rafamel/jorel/tree/master/packages/orm)
-  * [@jorel/sql-adapter](https://github.com/rafamel/jorel/tree/master/packages/sql-adapter)
+* [@jorel/sql-adapter](https://github.com/rafamel/jorel/tree/master/packages/sql-adapter)
 * [@jorel/compliance](https://github.com/rafamel/jorel/tree/master/packages/compliance)
 
 # Use cases / Vision

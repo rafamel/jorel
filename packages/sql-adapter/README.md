@@ -1,19 +1,18 @@
 # @jorel/sql-adapter
 
 [![Version](https://img.shields.io/npm/v/@jorel/sql-adapter.svg)](https://www.npmjs.com/package/@jorel/sql-adapter)
-[![Build Status](https://img.shields.io/travis/rafamel/jorel.svg)](https://travis-ci.org/rafamel/jorel)
-[![Coverage](https://img.shields.io/coveralls/rafamel/jorel.svg)](https://coveralls.io/github/rafamel/jorel)
+[![Build Status](https://img.shields.io/travis/rafamel/riseup/master.svg)](https://travis-ci.org/rafamel/riseup)
+[![Coverage](https://img.shields.io/coveralls/rafamel/riseup/master.svg)](https://coveralls.io/github/rafamel/riseup)
+[![Dependencies](https://img.shields.io/david/rafamel/riseup.svg?path=packages%2Fsql-adapter)](https://david-dm.org/rafamel/riseup?path=packages%2Fsql-adapter)
 [![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@jorel/sql-adapter.svg)](https://snyk.io/test/npm/@jorel/sql-adapter)
-[![License](https://img.shields.io/github/license/rafamel/jorel.svg)](https://github.com/rafamel/jorel/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/rafamel/riseup.svg)](https://github.com/rafamel/riseup/blob/master/LICENSE)
 [![Types](https://img.shields.io/npm/types/@jorel/sql-adapter.svg)](https://www.npmjs.com/package/@jorel/sql-adapter)
 
-<!-- markdownlint-disable MD036 -->
-**A [*Knex.js*](https://knexjs.org/) based adapter for *@jorel/orm*.**
-<!-- markdownlint-enable MD036 -->
+> Simple database and data sources dependency injection.
 
 ## Install
 
-[`npm install knex @jorel/sql-adapter`](https://www.npmjs.com/package/@jorel/sql-adapter)
+[`npm install @jorel/sql-adapter`](https://www.npmjs.com/package/@jorel/sql-adapter)
 
 ## Notes
 
